@@ -1,6 +1,10 @@
 import 'dart:developer';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/models/weather_model.dart';
+import 'package:weather_app/services/weather_service.dart';
+import 'package:weather_app/views/home_view.dart';
+import 'package:weather_app/widgets/no_weather_body.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -9,7 +13,7 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.white,
         ),
         backgroundColor: const Color(0xff2c9cee),
@@ -21,15 +25,24 @@ class SearchView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 16,
         ),
         child: Center(
           child: TextField(
-            onSubmitted: (value) {
-              log(value);
+            onSubmitted: (value) async {
+              WeatherModel weatherModel = await WeatherService(Dio())
+                  .getCurrentWeather(cityName: value);
+
+              Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return NoWeatherBody();
+                    },
+                  ),
+                );
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(
                 vertical: 32,
                 horizontal: 16,

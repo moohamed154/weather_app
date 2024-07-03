@@ -11,7 +11,7 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xff2c9cee),
         title: const Text(
-          'Weather App',
+          'Weather',
           style: TextStyle(
             color: Colors.white,
           ),
