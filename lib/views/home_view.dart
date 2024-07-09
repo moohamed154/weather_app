@@ -14,18 +14,12 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff2c9cee),
         title: const Text(
           'Weather',
-          style: TextStyle(
-            color: Colors.white,
-          ),
         ),
         actions: [
           IconButton(
@@ -39,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
                 );
               },
               icon: const Icon(
-                color: Colors.white,
+                // color: Colors.white,
                 Icons.search,
               ))
         ],
@@ -47,11 +41,20 @@ class _HomeViewState extends State<HomeView> {
       body: BlocBuilder<GetWeatherCubit, WeatherState>(
         builder: (context, state) {
           if (state is WeatherInitialState) {
-            return  NoWeatherBody();
+            return const NoWeatherBody();
           } else if (state is WeatherLoadedState) {
-            return  WeatherInfoBody();
+            return WeatherInfoBody(
+              weather: state.weatherModel,
+            );
           } else {
-            return  Text("OOPS there was an error ❌❌ ");
+            return const Center(
+              child: Text(
+                "OOPS there was an error ❌ ",
+                style: TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+            );
           }
         },
       ),
